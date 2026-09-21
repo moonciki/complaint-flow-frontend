@@ -6,7 +6,7 @@ import { ref, h } from 'vue';
 import { render } from '/@/utils/common/renderUtils';
 import { getDictItemsByCode } from '/@/utils/dict';
 import { treeToList } from '/@/utils';
-import { defaultColProps } from '../shareInfo';
+import { defaultColProps, getImportDays } from '../shareInfo';
 // acceptDepartment	受理单位	string	
 // assignCommunitys	处理社区(名称逗号拼接)	string	
 // assignDepts	处理科室(名称逗号拼接)	string	
@@ -79,7 +79,8 @@ export const columns: BasicColumn[] = [
         return text;
       }
     },
-    },
+  },
+  { title: '来件天数', dataIndex: 'importTime', width: 100, customRender: ({ text }) => getImportDays(text) },
   { title: '数据来源', dataIndex: 'sourceType', width: 80,
     customRender: ({ text }) => {
       return render.renderDict(text, 'biz_source_type');
@@ -239,7 +240,7 @@ export const columns: BasicColumn[] = [
           showTime: true
         },
         defaultValue: [
-          dayjs().add(-3, 'M').startOf('day'),
+          dayjs().add(-7, 'd').startOf('day'),
           dayjs().endOf('day')
         ]
     },

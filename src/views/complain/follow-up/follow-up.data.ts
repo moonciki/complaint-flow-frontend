@@ -7,7 +7,7 @@ import { render } from '/@/utils/common/renderUtils';
 import { getDictItemsByCode, getDistrictDictItemsByCode } from '/@/utils/dict';
 import { treeToList } from '/@/utils';
 import { getDateDiff } from '/@/utils/dateUtil';
-import { defaultColProps } from '../shareInfo';
+import { defaultColProps, getImportDays } from '../shareInfo';
 import { contactOptions } from '../components/PreReplyForm/preReplyForm.data';
 // acceptDepartment	受理单位	string
 // assignCommunitys	处理社区(名称逗号拼接)	string
@@ -102,6 +102,7 @@ export const columns: BasicColumn[] = [
       return h('span', { style: { color: '#389e0d' } }, `剩余${days}天${hours}小时`);
     },
   },
+  { title: '来件天数', dataIndex: 'importTime', width: 100, customRender: ({ text }) => getImportDays(text) },
   {
     title: '数据来源',
     dataIndex: 'sourceType',
@@ -272,7 +273,7 @@ export const searchFormSchema: FormSchema[] = [
       allowClear: false,
       showTime: true,
     },
-    defaultValue: [dayjs().add(-3, 'M').startOf('day'), dayjs().endOf('day')],
+    defaultValue: [dayjs().add(-7, 'd').startOf('day'), dayjs().endOf('day')],
   },
   {
     label: '派单时间',

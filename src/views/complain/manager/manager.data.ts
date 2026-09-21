@@ -8,7 +8,7 @@ import { getProcessList } from './manager.api';
 import { getDictItemsByCode } from '/@/utils/dict';
 import { render } from '/@/utils/common/renderUtils';
 import TicketRecord from './TicketRecord.vue';
-import { defaultColProps } from '../shareInfo';
+import { defaultColProps, getImportDays } from '../shareInfo';
 
 function treeToList(tree: any[]) {
   const list: any[] = [];
@@ -25,6 +25,7 @@ function treeToList(tree: any[]) {
 // 基于工单接收的列定义，保持一致
 export const columns: BasicColumn[] = [
   { title: 'id', dataIndex: 'id', width: 70 },
+  { title: '来件天数', dataIndex: 'importTime', width: 100, customRender: ({ text }) => getImportDays(text) },
   {
     title: '数据来源',
     dataIndex: 'sourceType_dictText',
@@ -266,7 +267,7 @@ export const searchFormSchema: FormSchema[] = [
       showTime: true, // 显示时间选择
     },
     colProps: { span: 8 },
-    defaultValue: [dayjs().add(-3, 'M').startOf('day'), dayjs().endOf('day')],
+    defaultValue: [dayjs().add(-7, 'd').startOf('day'), dayjs().endOf('day')],
   },
   // 回访结果
   {

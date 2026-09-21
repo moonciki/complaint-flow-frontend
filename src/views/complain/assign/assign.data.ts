@@ -14,7 +14,7 @@ import { ref, h } from 'vue';
 import { render } from '/@/utils/common/renderUtils';
 import { getDictItemsByCode } from '/@/utils/dict';
 import { getDateDiff } from '/@/utils/dateUtil';
-import { defaultColProps } from '../shareInfo';
+import { defaultColProps, getImportDays } from '../shareInfo';
 // acceptDepartment	受理单位	string
 // assignCommunitys	处理社区(名称逗号拼接)	string
 // assignDepts	处理科室(名称逗号拼接)	string
@@ -91,6 +91,7 @@ export const columns: BasicColumn[] = [
       }
     },
   },
+  { title: '来件天数', dataIndex: 'importTime', width: 100, customRender: ({ text }) => getImportDays(text) },
   {
     title: '剩余待处置时间',
     dataIndex: 'remainingTime',
@@ -293,7 +294,7 @@ export const searchFormSchema: FormSchema[] = [
       allowClear: false,
       showTime: true,
     },
-    defaultValue: [dayjs().add(-3, 'M').startOf('day'), dayjs().endOf('day')],
+    defaultValue: [dayjs().add(-7, 'd').startOf('day'), dayjs().endOf('day')],
   },
   {
     label: '派单时间',
